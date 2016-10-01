@@ -1,6 +1,6 @@
 # gopherclient
 
-gopherclient is a cross platform Gopher (RFC 1436) GUI client written in GO
+gopherclient is a cross-platform Gopher (RFC 1436) GUI client written in Go
 using the QT toolkit with QML. Standard features include:
 
 - Back
