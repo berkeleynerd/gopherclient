@@ -1,5 +1,7 @@
 package main
 
+//go:generate genqrc resources
+
 import (
 	"fmt"
 	"log"
@@ -56,7 +58,7 @@ func main() {
 		engine := qml.NewEngine()
 		engine.On("quit", func() { os.Exit(0) })
 
-		component, err := engine.LoadFile("main.qml")
+		component, err := engine.LoadFile("qrc:///resources/main.qml")
 		if err != nil {
 			return err
 		}

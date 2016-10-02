@@ -52,7 +52,7 @@ ApplicationWindow {
 
 				Image {
 					anchors.fill: parent
-					source: "images/button_back.png"
+					source: "qrc:///resources/images/button_back.png"
 			 	}
 
 				MouseArea {
@@ -83,7 +83,7 @@ ApplicationWindow {
 
 				Image {
 					anchors.fill: parent
-					source: "images/button_forward.png"
+					source: "qrc:///resources/images/button_forward.png"
 			 	}
 
 				MouseArea {
@@ -114,7 +114,7 @@ ApplicationWindow {
 
 				Image {
 					anchors.fill: parent
-					source: webEngineView.loading ? "images/button_stop.png" : "images/button_refresh.png"
+					source: webEngineView.loading ? "qrc:///resources/images/button_stop.png" : "qrc:///resources/images/button_refresh.png"
 			 	}
 
 				MouseArea {
@@ -145,7 +145,7 @@ ApplicationWindow {
 
 				Image {
 					anchors.fill: parent
-					source: "images/button_home.png"
+					source: "qrc:///resources/images/button_home.png"
 			 	}
 
 				MouseArea {
