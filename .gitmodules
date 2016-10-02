@@ -1,0 +1,4 @@
+[submodule "vendor/gopkg.in/qml.v1"]
+	path = vendor/gopkg.in/qml.v1
+	url = https://github.com/prologic/go-qml
+	branch = v1
