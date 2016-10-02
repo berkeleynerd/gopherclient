@@ -2,3 +2,12 @@
 	path = vendor/gopkg.in/qml.v1
 	url = https://github.com/prologic/go-qml
 	branch = v1
+[submodule "vendor/github.com/mitchellh/go-homedir"]
+	path = vendor/github.com/mitchellh/go-homedir
+	url = https://github.com/mitchellh/go-homedir
+[submodule "vendor/github.com/prologic/go-gopher"]
+	path = vendor/github.com/prologic/go-gopher
+	url = https://github.com/prologic/go-gopher
+[submodule "vendor/github.com/prologic/gopherproxy"]
+	path = vendor/github.com/prologic/gopherproxy
+	url = https://github.com/prologic/gopherproxy
