@@ -50,7 +50,7 @@ GODEBUG=cgocheck=0 gopherclient
 **NB:** The `GODEBUG=cgocheck=0` is necessary to successfully run gopherclient
         at this time due to Go 1.6+ compatibility issues with go-qml.
         See: [go-qml/qml#170](https://github.com/go-qml/qml/issues/170)
-             and [go-qml/qml#179](https://github.com/go-qml/qml/issues/#179)
+             and [go-qml/qml#179](https://github.com/go-qml/qml/issues/179)
              (Sorry!)
 
 ## Licnese
