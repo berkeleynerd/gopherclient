@@ -19,8 +19,17 @@ Coming soon:
 
 ## Installation
 
+### Source
+
 ```#!bash
 $ go install github.com/prologic/gopherclient
+```
+
+### OS X Homebrew
+
+```#!bash
+$ brew tap prologic/gopherclient
+$ brew install gopherclient
 ```
 
 Make sure you have QT 5.6+ installed:
