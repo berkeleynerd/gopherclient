@@ -41,6 +41,16 @@ $ brew install qt
 gopherclient is still early days so contributions, ideas and UI expertise are
 much appreciated and highly welome!
 
+## Usage
+
+```#!bash
+GODEBUG=cgocheck=0 gopherclient
+```
+
+**NB:** The `GODEBUG=cgocheck=0` is necessary to successfully run gopherclient
+        at this time due to Go 1.6+ compatibility issues with go-qml.
+        See: go-qml/qml#170 and go-qml/qml#179 (Sorry!)
+
 ## Licnese
 
 MIT
