@@ -29,7 +29,7 @@ $ go install github.com/prologic/gopherclient
 
 ```#!bash
 $ brew tap prologic/gopherclient
-$ brew install gopherclient
+$ brew install --HEAD gopherclient
 ```
 
 Make sure you have QT 5.6+ installed:
