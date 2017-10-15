@@ -3,23 +3,28 @@ package main
 //go:generate genqrc resources
 
 import (
-	"fmt"
+	"html/template"
+	"io/ioutil"
 	"log"
-	"net/url"
+	"net"
+	"net/http"
 	"os"
-
-	"github.com/prologic/go-gopher"
-	"github.com/prologic/gopherproxy"
+	"runtime"
+	"strings"
 
 	"github.com/mitchellh/go-homedir"
+	"github.com/prologic/go-gopher"
+	"github.com/prologic/gopherproxy"
+	"github.com/zserge/webview"
+)
 
-	"gopkg.in/qml.v1"
-	"gopkg.in/qml.v1/webengine"
+const (
+	windowWidth  = 800
+	windowHeight = 600
 )
 
 var (
 	gopherHome string
-	uriField   qml.Object
 )
 
 func ensureGopherHome(root string) error {
@@ -36,6 +41,55 @@ func localGopherServer(bind, root string) {
 	log.Fatal(gopher.ListenAndServe(bind, nil))
 }
 
+func startServer(uri string) string {
+	var (
+		content string
+		tpl     *template.Template
+	)
+
+	bs, err := ioutil.ReadFile(".template")
+	if err == nil {
+		content = string(bs)
+	} else {
+		content = string(defaultTemplate)
+	}
+
+	tpl, err = template.New("index").Parse(content)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	ln, err := net.Listen("tcp", "127.0.0.1:0")
+	if err != nil {
+		log.Fatal(err)
+	}
+	go func() {
+		defer ln.Close()
+		http.HandleFunc("/", gopherproxy.Handler(tpl, uri))
+		log.Fatal(http.Serve(ln, nil))
+	}()
+	return "http://" + ln.Addr().String()
+}
+
+func handleRPC(w webview.WebView, data string) {
+	switch {
+	case data == "back":
+		log.Println("back")
+	case data == "forwrd":
+		log.Println("forward")
+	case data == "reload":
+		log.Println("reload")
+	case data == "home":
+		log.Println("home")
+	case strings.HasPrefix(data, "open:"):
+		log.Println("open")
+	}
+}
+
+func init() {
+	runtime.LockOSThread()
+}
+
 func main() {
 	var err error
 
@@ -49,74 +103,14 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println(qml.Run(func() error {
-		go localGopherServer("127.0.0.1:7070", gopherHome)
-		go gopherproxy.ListenAndServe("127.0.0.1:8070", "127.0.0.1:7070")
-
-		webengine.Initialize()
-
-		engine := qml.NewEngine()
-		engine.On("quit", func() { os.Exit(0) })
-
-		component, err := engine.LoadFile("qrc:///resources/main.qml")
-		if err != nil {
-			return err
-		}
-
-		win := component.CreateWindow(nil)
-
-		root := win.Root()
-
-		backButton := root.ObjectByName("backButton")
-		forwardButton := root.ObjectByName("forwardButton")
-		refreshButton := root.ObjectByName("refreshButton")
-		homeButton := root.ObjectByName("homeButton")
-
-		goButton := root.ObjectByName("goButton")
-		mainView := root.ObjectByName("mainView")
-		uriField = root.ObjectByName("uriField")
-
-		navigateTo := func() {
-			uri := uriField.String("text")
-
-			u, e := url.Parse(uri)
-			if e != nil {
-				log.Printf("ERROR: %s", e)
-				return
-			}
-
-			mainView.Set(
-				"url",
-				fmt.Sprintf(
-					"http://127.0.0.1:8070/%s/%s",
-					u.Host,
-					u.Path,
-				),
-			)
-		}
-
-		backButton.On("clicked", func() {
-			mainView.Call("goBack")
-		})
-
-		forwardButton.On("clicked", func() {
-			mainView.Call("goForward")
-		})
-
-		refreshButton.On("clicked", func() {
-			mainView.Call("reload")
-		})
-
-		homeButton.On("clicked", func() {
-			mainView.Set("url", "http://127.0.0.1:8070/127.0.0.1:7070")
-		})
-
-		goButton.On("clicked", navigateTo)
-		uriField.On("accepted", navigateTo)
-
-		win.Show()
-		win.Wait()
-
-		return nil
-	}))
+	url := startServer("floodgap.com")
+	w := webview.New(webview.Settings{
+		Width:  windowWidth,
+		Height: windowHeight,
+		Title:  "Gopher Client",
+		URL:    url,
+		ExternalInvokeCallback: handleRPC,
+	})
+	defer w.Exit()
+	w.Run()
 }
