@@ -1,0 +1,15 @@
+[submodule "vendor/github.com/mitchellh/go-homedir"]
+	path = vendor/github.com/mitchellh/go-homedir
+	url = https://github.com/mitchellh/go-homedir
+[submodule "vendor/github.com/prologic/go-gopher"]
+	path = vendor/github.com/prologic/go-gopher
+	url = https://github.com/prologic/go-gopher
+[submodule "vendor/golang.org/x/net"]
+	path = vendor/golang.org/x/net
+	url = https://go.googlesource.com/net
+[submodule "vendor/github.com/prologic/gopherproxy"]
+	path = vendor/github.com/prologic/gopherproxy
+	url = https://github.com/prologic/gopherproxy
+[submodule "vendor/github.com/zserge/webview"]
+	path = vendor/github.com/zserge/webview
+	url = https://github.com/zserge/webview
