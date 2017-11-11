@@ -23,6 +23,9 @@ build: clean deps
 		-ldflags "-w -X github.com/$(REPO).GitCommit=$(COMMIT) -X github.com/$(REPO).Build=$(BUILD)" .
 	@echo "Built $$(./$(APP) -v)"
 
+install:
+	@go install
+
 image:
 	@docker build --build-arg TAG=$(TAG) --build-arg BUILD=$(BUILD) -t $(REPO):$(TAG) .
 	@echo "Image created: $(REPO):$(TAG)"
