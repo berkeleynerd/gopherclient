@@ -1,6 +1,6 @@
 package main
 
-//go:generate genqrc resources
+//go:generate rice embed-go
 
 import (
 	"html/template"
@@ -12,6 +12,7 @@ import (
 	"runtime"
 	"strings"
 
+	"github.com/GeertJohan/go.rice"
 	"github.com/mitchellh/go-homedir"
 	"github.com/prologic/go-gopher"
 	"github.com/prologic/gopherproxy"
@@ -66,6 +67,7 @@ func startServer(uri string) string {
 	go func() {
 		defer ln.Close()
 		http.HandleFunc("/", gopherproxy.Handler(tpl, uri))
+		http.Handle("/assets", http.FileServer(rice.MustFindBox("assets").HTTPBox()))
 		log.Fatal(http.Serve(ln, nil))
 	}()
 	return "http://" + ln.Addr().String()
