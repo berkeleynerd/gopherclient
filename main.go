@@ -3,6 +3,7 @@ package main
 //go:generate rice embed-go
 
 import (
+	"fmt"
 	"html/template"
 	"io/ioutil"
 	"log"
@@ -14,6 +15,7 @@ import (
 
 	"github.com/GeertJohan/go.rice"
 	"github.com/mitchellh/go-homedir"
+	"github.com/namsral/flag"
 	"github.com/prologic/go-gopher"
 	"github.com/prologic/gopherproxy"
 	"github.com/zserge/webview"
@@ -93,7 +95,19 @@ func init() {
 }
 
 func main() {
-	var err error
+	var (
+		err error
+
+		version bool
+	)
+
+	flag.BoolVar(&version, "v", false, "display version information")
+	flag.Parse()
+
+	if version {
+		fmt.Printf("gopherclient v%s", FullVersion())
+		os.Exit(0)
+	}
 
 	gopherHome, err = homedir.Expand("~/.gopher")
 	if err != nil {
