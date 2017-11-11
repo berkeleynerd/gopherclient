@@ -7,7 +7,8 @@ ARG BUILD
 ENV APP gopherclient
 ENV REPO prologic/$APP
 
-RUN apk add --update git make build-base && \
+RUN apk add -U git make build-base && \
+    apk add -U webkitgtk-dev && \
     rm -rf /var/cache/apk/*
 
 WORKDIR /go/src/github.com/$REPO
