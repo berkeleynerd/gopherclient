@@ -13,3 +13,15 @@
 [submodule "vendor/github.com/zserge/webview"]
 	path = vendor/github.com/zserge/webview
 	url = https://github.com/zserge/webview
+[submodule "vendor/github.com/GeertJohan/go.rice"]
+	path = vendor/github.com/GeertJohan/go.rice
+	url = https://github.com/GeertJohan/go.rice
+[submodule "vendor/github.com/daaku/go.zipexe"]
+	path = vendor/github.com/daaku/go.zipexe
+	url = https://github.com/daaku/go.zipexe
+[submodule "vendor/github.com/kardianos/osext"]
+	path = vendor/github.com/kardianos/osext
+	url = https://github.com/kardianos/osext
+[submodule "vendor/github.com/namsral/flag"]
+	path = vendor/github.com/namsral/flag
+	url = https://github.com/namsral/flag
