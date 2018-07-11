@@ -25,3 +25,6 @@
 [submodule "vendor/github.com/namsral/flag"]
 	path = vendor/github.com/namsral/flag
 	url = https://github.com/namsral/flag
+[submodule "vendor/github.com/temoto/robotstxt"]
+	path = vendor/github.com/temoto/robotstxt
+	url = https://github.com/temoto/robotstxt

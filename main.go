@@ -68,7 +68,7 @@ func startServer(uri string) string {
 	}
 	go func() {
 		defer ln.Close()
-		http.HandleFunc("/", gopherproxy.Handler(tpl, uri))
+		http.HandleFunc("/", gopherproxy.GopherHandler(tpl, nil, uri))
 		http.Handle("/assets", http.FileServer(rice.MustFindBox("assets").HTTPBox()))
 		log.Fatal(http.Serve(ln, nil))
 	}()

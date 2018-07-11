@@ -1,7 +1,7 @@
 # gopherclient
 
-gopherclient is a cross-platform Gopher (RFC 1436) GUI client written in Go
-using the QT toolkit with QML. Standard features include:
+gopherclient is a cross-platform Gopher (RFC 1436) GUI client written in Go.
+Standard features include:
 
 - Back
 - Forward
@@ -39,10 +39,10 @@ much appreciated and highly welome!
 
 Fedora:
 
-You'll need `qt5-qtbase-devel` and `webkitgtk3-devel`:
+You'll need `webkitgtk3-devel`:
 
 ```#!bash
-$ sudo dnf install qt5-qtbase-devel webkitgtk3-devel
+$ sudo dnf install webkitgtk3-devel
 ```
 
 ## Usage
