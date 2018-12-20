@@ -51,6 +51,17 @@ $ sudo dnf install webkitgtk3-devel
 $ gopherclient
 ```
 
+## Related
+
+Related projects:
+
+- [go-gopher](https://github.com/prologic/go-gopher)
+  go-gopher is the Gopher client and server library used by gopherclient
+
+- [gopherproxy](https://github.com/prologic/gopherproxy)
+  gopherproxy is Gopher to HTTP proxy that uses go-gopher
+  for all of its core functionality.
+
 ## Licnese
 
 MIT
