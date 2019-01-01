@@ -6,17 +6,17 @@ const defaultTemplate = `<!doctype html>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="/assets/css/app.css">
     <title>{{.Title}}</title>
   </head>
   <body>
     <section>
-      <button onclick="external.invoke_('back')">Back</button>
-      <button onclick="external.invoke_('forward')">Forward</button>
-      <button onclick="external.invoke_('reload')">Reload</button>
-      <button onclick="external.invoke_('home')">Home</button>
+      <button onclick="window.external.invoke('back')">Back</button>
+      <button onclick="window.external.invoke('forward')">Forward</button>
+      <button onclick="window.external.invoke('reload')">Reload</button>
+      <button onclick="window.external.invoke('home')">Home</button>
       <input id="uri" type="text" />
-      <button onclick="external.invoke_('open:'+document.getElementById('uri').value)">
+      <button onclick="window.external.invoke('open:'+document.getElementById('uri').value)">
         Go
       </button>
     </section>

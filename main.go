@@ -27,6 +27,8 @@ const (
 )
 
 var (
+	w          webview.WebView
+	server     *Server
 	gopherHome string
 )
 
@@ -44,11 +46,21 @@ func localGopherServer(bind, root string) {
 	log.Fatal(gopher.ListenAndServe(bind, nil))
 }
 
-func startServer(uri string) string {
-	var (
-		content string
-		tpl     *template.Template
-	)
+type Server struct {
+	url  string
+	home string
+
+	tpl *template.Template
+}
+
+func NewServer(home string) *Server {
+	return &Server{
+		home: home,
+	}
+}
+
+func (s *Server) Start() string {
+	var content string
 
 	bs, err := ioutil.ReadFile(".template")
 	if err == nil {
@@ -57,10 +69,11 @@ func startServer(uri string) string {
 		content = string(defaultTemplate)
 	}
 
-	tpl, err = template.New("index").Parse(content)
+	tpl, err := template.New("index").Parse(content)
 	if err != nil {
 		log.Fatal(err)
 	}
+	s.tpl = tpl
 
 	ln, err := net.Listen("tcp", "127.0.0.1:0")
 	if err != nil {
@@ -68,25 +81,56 @@ func startServer(uri string) string {
 	}
 	go func() {
 		defer ln.Close()
-		http.HandleFunc("/", gopherproxy.GopherHandler(tpl, nil, uri))
+		http.HandleFunc("/", s.Handler)
 		http.Handle("/assets", http.FileServer(rice.MustFindBox("assets").HTTPBox()))
 		log.Fatal(http.Serve(ln, nil))
 	}()
 	return "http://" + ln.Addr().String()
 }
 
-func handleRPC(w webview.WebView, data string) {
-	switch {
-	case data == "back":
-		log.Println("back")
-	case data == "forwrd":
-		log.Println("forward")
-	case data == "reload":
-		log.Println("reload")
-	case data == "home":
-		log.Println("home")
-	case strings.HasPrefix(data, "open:"):
-		log.Println("open")
+func (s *Server) SetHome(url string) {
+	s.home = url
+}
+
+func (s *Server) Back() {
+	w.Eval("window.history.back();")
+}
+
+func (s *Server) Forward() {
+	w.Eval("window.history.forward();")
+}
+
+func (s *Server) Home() {
+	s.Open(s.home)
+}
+
+func (s *Server) Reload() {
+	w.Eval(fmt.Sprintf("window.location.reload();"))
+}
+
+func (s *Server) Open(url string) {
+	s.url = url
+	w.Eval(fmt.Sprintf("window.location.pathname = \"%s\";", url))
+}
+
+func (s *Server) Handler(w http.ResponseWriter, r *http.Request) {
+	gopherproxy.GopherHandler(s.tpl, nil, s.url).ServeHTTP(w, r)
+}
+
+func (s *Server) HandleRPC(w webview.WebView, data string) {
+	args := strings.Split(data, ":")
+
+	switch args[0] {
+	case "back":
+		s.Back()
+	case "forwrd":
+		s.Forward()
+	case "reload":
+		s.Reload()
+	case "home":
+		s.Home()
+	case "open":
+		s.Open(args[1])
 	}
 }
 
@@ -119,14 +163,20 @@ func main() {
 		log.Fatal(err)
 	}
 
-	url := startServer("floodgap.com")
-	w := webview.New(webview.Settings{
+	server = NewServer("floodgap.com")
+	url := server.Start()
+
+	w = webview.New(webview.Settings{
 		Width:                  windowWidth,
 		Height:                 windowHeight,
 		Title:                  "Gopher Client",
 		URL:                    url,
-		ExternalInvokeCallback: handleRPC,
+		ExternalInvokeCallback: server.HandleRPC,
+		Debug:                  true,
 	})
 	defer w.Exit()
+
+	server.Home()
+
 	w.Run()
 }
