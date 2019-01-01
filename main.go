@@ -121,10 +121,10 @@ func main() {
 
 	url := startServer("floodgap.com")
 	w := webview.New(webview.Settings{
-		Width:  windowWidth,
-		Height: windowHeight,
-		Title:  "Gopher Client",
-		URL:    url,
+		Width:                  windowWidth,
+		Height:                 windowHeight,
+		Title:                  "Gopher Client",
+		URL:                    url,
 		ExternalInvokeCallback: handleRPC,
 	})
 	defer w.Exit()
