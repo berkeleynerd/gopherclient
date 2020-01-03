@@ -3,21 +3,22 @@ package main
 //go:generate rice embed-go
 
 import (
+	"flag"
 	"fmt"
 	"html/template"
 	"io/ioutil"
-	"log"
 	"net"
 	"net/http"
 	"os"
+	"path"
 	"runtime"
 	"strings"
 
-	"github.com/GeertJohan/go.rice"
+	rice "github.com/GeertJohan/go.rice"
 	"github.com/mitchellh/go-homedir"
-	"github.com/namsral/flag"
 	"github.com/prologic/go-gopher"
 	"github.com/prologic/gopherproxy"
+	log "github.com/sirupsen/logrus"
 	"github.com/zserge/webview"
 )
 
@@ -134,18 +135,24 @@ func (s *Server) HandleRPC(w webview.WebView, data string) {
 	}
 }
 
+var (
+	debug   bool
+	version bool
+)
+
 func init() {
+	flag.Usage = func() {
+		fmt.Fprintf(flag.CommandLine.Output(), "Usage: %s [options] [<url>]\n", path.Base(os.Args[0]))
+		flag.PrintDefaults()
+	}
+
+	flag.BoolVar(&debug, "d", false, "enable debug logging")
+	flag.BoolVar(&version, "v", false, "display version information")
+
 	runtime.LockOSThread()
 }
 
 func main() {
-	var (
-		err error
-
-		version bool
-	)
-
-	flag.BoolVar(&version, "v", false, "display version information")
 	flag.Parse()
 
 	if version {
@@ -153,17 +160,27 @@ func main() {
 		os.Exit(0)
 	}
 
-	gopherHome, err = homedir.Expand("~/.gopher")
-	if err != nil {
-		log.Fatal(err)
+	if debug {
+		log.SetLevel(log.DebugLevel)
+	} else {
+		log.SetLevel(log.InfoLevel)
 	}
 
-	err = ensureGopherHome(gopherHome)
+	gopherHome, err := homedir.Expand("~/.gopher")
 	if err != nil {
-		log.Fatal(err)
+		log.WithError(err).Fatal("could not expand home directory")
 	}
 
-	server = NewServer("floodgap.com")
+	if err := ensureGopherHome(gopherHome); err != nil {
+		log.WithError(err).Fatal("could not create gopher home")
+	}
+
+	gopherURI := "floodgap.com"
+	if flag.Arg(0) != "" {
+		gopherURI = flag.Arg(0)
+	}
+
+	server = NewServer(gopherURI)
 	url := server.Start()
 
 	w = webview.New(webview.Settings{
