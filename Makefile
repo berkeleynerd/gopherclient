@@ -35,7 +35,7 @@ release: dmg
 
 dmg: build
 	@appify -name "GopherClient" -icon ./icon.png ./gopherclient
-	@create-dmg ./GopherClient.app
+	@create-dmg ./GopherClient.app || true
 
 test:
 	@go test -v -cover -race $(TEST_ARGS)
