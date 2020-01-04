@@ -30,7 +30,7 @@ image:
 	@docker build --build-arg TAG=$(TAG) --build-arg BUILD=$(BUILD) -t $(REPO):$(TAG) .
 	@echo "Image created: $(REPO):$(TAG)"
 
-release:
+release: dmg
 	@./tools/release.sh
 
 dmg: build
