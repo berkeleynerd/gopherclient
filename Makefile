@@ -1,4 +1,4 @@
-.PHONY: dev build image test deps clean
+.PHONY: dev build image dmg test deps clean
 
 CGO_ENABLED=0
 COMMIT=`git rev-parse --short HEAD`
@@ -29,6 +29,10 @@ install:
 image:
 	@docker build --build-arg TAG=$(TAG) --build-arg BUILD=$(BUILD) -t $(REPO):$(TAG) .
 	@echo "Image created: $(REPO):$(TAG)"
+
+dmg: build
+	@appify -name "GopherClient" -icon ./icon.png ./gopherclient
+	@create-dmg ./GopherClient.app
 
 test:
 	@go test -v -cover -race $(TEST_ARGS)

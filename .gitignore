@@ -1,4 +1,8 @@
 *~
 *.bak
-rice-box.go
-gopherclient
+*.app
+*.dmg
+
+/rice-box.go
+/gopherclient
+/.DS_Store
