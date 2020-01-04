@@ -8,4 +8,4 @@ ENV PATH $GOPATH/bin:$PATH
 WORKDIR /src
 COPY . /src
 
-CMD ["make", "build"]
+RUN make build
