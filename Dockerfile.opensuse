@@ -1,0 +1,11 @@
+FROM opensuse/tumbleweed AS build
+
+RUN zypper -n in git "go>=1.11" make webkit2gtk3-devel
+
+ENV GOPATH /go
+ENV PATH $GOPATH/bin:$PATH
+
+WORKDIR /src
+COPY . /src
+
+CMD ["make", "build"]
