@@ -62,6 +62,6 @@ Related projects:
   gopherproxy is Gopher to HTTP proxy that uses go-gopher
   for all of its core functionality.
 
-## Licnese
+## License
 
 MIT
