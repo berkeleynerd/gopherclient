@@ -16,8 +16,8 @@ import (
 
 	rice "github.com/GeertJohan/go.rice"
 	"github.com/mitchellh/go-homedir"
-	"github.com/prologic/go-gopher"
-	"github.com/prologic/gopherproxy"
+	"git.mills.io/prologic/go-gopher"
+	"git.mills.io/prologic/gopherproxy"
 	log "github.com/sirupsen/logrus"
 	"github.com/zserge/webview"
 )

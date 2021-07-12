@@ -55,10 +55,10 @@ $ gopherclient
 
 Related projects:
 
-- [go-gopher](https://github.com/prologic/go-gopher)
+- [go-gopher](https://git.mills.io/prologic/go-gopher)
   go-gopher is the Gopher client and server library used by gopherclient
 
-- [gopherproxy](https://github.com/prologic/gopherproxy)
+- [gopherproxy](https://git.mills.io/prologic/gopherproxy)
   gopherproxy is Gopher to HTTP proxy that uses go-gopher
   for all of its core functionality.
 

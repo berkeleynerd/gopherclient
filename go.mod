@@ -1,4 +1,4 @@
-module github.com/prologic/gopherclient
+module git.mills.io/prologic/gopherclient
 
 require (
 	github.com/GeertJohan/go.rice v1.0.0
@@ -10,8 +10,8 @@ require (
 	github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646 // indirect
 	github.com/nkovacs/streamquote v1.0.0 // indirect
 	github.com/pkg/errors v0.8.0 // indirect
-	github.com/prologic/go-gopher v0.0.0-20191226035442-664dbdb49f44
-	github.com/prologic/gopherproxy v0.0.3-0.20181231132417-57877cbafa1a
+	git.mills.io/prologic/go-gopher v0.0.0-20191226035442-664dbdb49f44
+	git.mills.io/prologic/gopherproxy v0.0.3-0.20181231132417-57877cbafa1a
 	github.com/sirupsen/logrus v1.4.2
 	github.com/temoto/robotstxt v1.1.1 // indirect
 	github.com/valyala/fasttemplate v1.1.0 // indirect
